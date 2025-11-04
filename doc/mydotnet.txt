@@ -1,0 +1,79 @@
+*mydotnet.txt*  Minimal dotnet build helpers for Neovim
+
+INTRODUCTION                                        *mydotnet-intro*
+  The custom dotnet helper provides commands and keymaps to build, clean,
+  and rebuild the nearest C# solution (.sln) or project (.csproj) by
+  walking upward from the current buffer's directory.
+
+FEATURES                                            *mydotnet-features*
+  - Upward detection of nearest .sln or .csproj
+  - Commands: :DotnetBuild, :DotnetClean, :DotnetRebuild,
+              :DotnetBuildSolution, :DotnetBuildProject
+  - Quickfix integration using :make and msbuild errorformat
+  - Optional auto-opening of quickfix window
+  - Configurable arguments per command kind
+  - Buffer-local makeprg for C# files for quick :make
+
+CONFIGURATION                                       *mydotnet-config*
+  The setup function accepts an options table:
+>
+    require('custom.dotnet.build').setup({
+      prefer_project = false,      -- prefer .csproj over .sln when both exist
+      auto_open_qf = true,         -- open quickfix when entries produced
+      commands = true,             -- create :Dotnet* commands
+      keymaps = true,              -- register default keymaps
+      autocommands = true,         -- set makeprg for C# buffers
+      custom_args = {
+        build = { '--nologo' },    -- appended to build command
+        clean = {},                -- appended to clean command
+        rebuild = {},              -- appended to rebuild command
+      },
+      notify_level = vim.log.levels.INFO,
+      dotnet_cmd = 'dotnet',       -- override path to dotnet if needed
+    })
+<
+
+DEFAULT KEYMAPS                                    *mydotnet-keymaps*
+  <leader>tB   :DotnetBuild
+  <leader>tC   :DotnetClean
+  <leader>tR   :DotnetRebuild
+  <leader>tS   :DotnetBuildSolution
+  <leader>tP   :DotnetBuildProject
+
+COMMAND DETAILS                                     *mydotnet-commands*
+  :DotnetBuild          Build nearest solution or project.
+  :DotnetClean          Clean nearest solution or project.
+  :DotnetRebuild        Rebuild (msbuild target) nearest solution or project.
+  :DotnetBuildSolution  Force building the nearest .sln only.
+  :DotnetBuildProject   Force building the nearest .csproj only.
+
+ERRORFORMAT                                          *mydotnet-errorformat*
+  Adds pattern: %f(%l\\,%c): %t%*[^:]: %m
+  This captures msbuild diagnostics in the form:
+    path(line,column): error CS0000: message
+
+INSPECTION                                          *mydotnet-inspect*
+  Print current config:
+>
+    :lua print(vim.inspect(require('custom.dotnet.build').get_config()))
+<
+
+EXTENDING                                           *mydotnet-extending*
+  - Add run support: create a new command calling `dotnet run`.
+  - Add test support: integrate with neotest-dotnet or new command using `dotnet test`.
+  - Picker for multiple solutions: use telescope to choose from vim.fs.find results.
+  - Switch to async jobstart parsing for streaming output.
+
+TROUBLESHOOTING                                     *mydotnet-troubleshooting*
+  - "No matching target" message: ensure a .sln or .csproj exists above the buffer path.
+  - dotnet not found: set `dotnet_cmd` to full path or fix PATH environment.
+  - Quickfix not opening: ensure `auto_open_qf = true`.
+  - Stale targets: clear internal caches by restarting Neovim (current version doesn't persist caches yet).
+
+LICENSE                                             *mydotnet-license*
+  Suggested: MIT (simple and permissive).
+
+AUTHOR                                              *mydotnet-author*
+  Local configuration adapted into modular helper.
+
+vim:tw=78:ts=2:et:ft=help
