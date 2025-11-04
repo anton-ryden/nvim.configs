@@ -376,6 +376,9 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>e', group = '[E]xplorer' },   -- Neo-tree group
+        { '<leader>f', group = '[F]ormat' },     -- Conform format
+        { '<leader>q', group = '[Q]uickfix' },   -- Diagnostics quickfix
       },
     },
   },

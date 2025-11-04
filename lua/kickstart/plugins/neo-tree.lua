@@ -9,17 +9,25 @@ return {
     'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
     'MunifTanjim/nui.nvim',
   },
-  lazy = false,
+  event = 'VimEnter',
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<leader>et', '<cmd>Neotree toggle<CR>', desc = 'Explorer: toggle' },
+    { '<leader>er', '<cmd>Neotree reveal<CR>', desc = 'Explorer: reveal file' },
+    { '<leader>ef', '<cmd>Neotree focus<CR>', desc = 'Explorer: focus' },
+    { '<leader>ec', '<cmd>Neotree close<CR>', desc = 'Explorer: close' },
+    { '<leader>eg', '<cmd>Neotree git_status<CR>', desc = 'Explorer: git status' },
   },
-  opts = {
-    filesystem = {
-      window = {
-        mappings = {
-          ['\\'] = 'close_window',
-        },
+  config = function()
+    require('neo-tree').setup {
+      filesystem = {
+        filtered_items = { hide_dotfiles = false },
       },
-    },
-  },
+    }
+    -- Auto-open (använd reveal så aktuell fil visas)
+    vim.schedule(function()
+      pcall(function()
+        vim.cmd 'Neotree reveal'
+      end)
+    end)
+  end,
 }
