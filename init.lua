@@ -322,9 +322,18 @@ require('lazy').setup({
    "seblyng/roslyn.nvim",
     ---@module 'roslyn.config'
     ---@type RoslynNvimConfig
-    opts = {
-        -- your configuration comes here; leave empty for default settings
-    },
+  opts = {
+    -- Leave empty for defaults. Example tweaks you can enable:
+     enable = true,
+    -- solution = nil,            -- Or absolute path to your .sln for better project loading
+     dotnet_path = 'dotnet',      -- Path to dotnet executable if not in PATH
+     lsp = {
+       semantic_tokens = true,    -- Use Roslyn semantic tokens
+       inlay_hints = true,        -- Enable inlay hints (toggle with <leader>th already configured)
+       analyzers = true,          -- Run Roslyn analyzers
+       formatting = true,         -- Allow Roslyn to format
+     },
+  },
   },
     {
     "williamboman/mason.nvim",
@@ -772,7 +781,7 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        'stylua',    -- Used to format Lua code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -825,6 +834,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        c_sharp = { 'csharpier', 'dotnet_format', stop_after_first = true }, -- Requires dotnet & tools installed
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -1008,7 +1018,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+  ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'c_sharp' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
