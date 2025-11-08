@@ -1,5 +1,6 @@
-return { -- Detect tabstop and shiftwidth automatically
-  'NMAC427/guess-indent.nvim',
-  event = 'BufReadPost',
-  opts = {},
-}
+return{}
+-- return { -- Detect tabstop and shiftwidth automatically
+--   'NMAC427/guess-indent.nvim',
+--   event = 'BufReadPost',
+--   opts = {},
+-- }

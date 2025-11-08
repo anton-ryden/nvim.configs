@@ -18,12 +18,6 @@ This fork extends the default [kickstart.nvim](https://github.com/nvim-lua/kicks
 
 ---
 
-### **Code Actions**
-- **[nvim-lightbulb](https://github.com/kosayoda/nvim-lightbulb)**
-  Displays a lightbulb icon in the gutter when code actions are available, making it easier to apply quick fixes or refactors.
-
----
-
 ### **C# Language Server**
 - **[roslyn.nvim](https://github.com/seblyng/roslyn.nvim)**
   Official Roslyn-based language server for C#. Provides IntelliSense, code navigation, and refactoring.
