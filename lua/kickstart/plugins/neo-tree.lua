@@ -83,7 +83,7 @@ return {
         commands = commands,
       },
     }
-    -- Auto-open (använd reveal så aktuell fil visas)
+    -- Auto-reveal current file on startup (keeps behavior from original config)
     vim.schedule(function()
       pcall(function()
         vim.cmd 'Neotree reveal'
