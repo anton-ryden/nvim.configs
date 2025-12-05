@@ -28,6 +28,30 @@ return {
 
 			-- Minimal bqf setup (uses defaults); customize here if needed
 			-- require('bqf').setup {}
+
+			-- Create a user command for toggling quickfix so which-key can register a string RHS
+			vim.api.nvim_create_user_command('ToggleQuickfix', function()
+				for _, win in ipairs(vim.fn.getwininfo()) do
+					if win.quickfix == 1 then
+						vim.cmd('cclose')
+						return
+					end
+				end
+				vim.cmd('copen')
+			end, {})
+
+			-- Register which-key labels so <leader>q shows the quickfix commands
+			local ok, wk = pcall(require, 'which-key')
+					if ok and wk then
+						wk.add({
+							{ '<leader>q', group = 'Quickfix', icon = { icon = '', color = 'azure' } },
+							{ '<leader>qo', desc = 'Open quickfix' },
+							{ '<leader>qc', desc = 'Close quickfix' },
+							{ '<leader>qt', desc = 'Toggle quickfix' },
+							{ '<leader>qn', desc = 'Next quickfix' },
+							{ '<leader>qp', desc = 'Previous quickfix' },
+						})
+					end
 		end,
 	},
 }

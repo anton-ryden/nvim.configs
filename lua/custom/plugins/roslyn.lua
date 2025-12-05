@@ -57,5 +57,14 @@ return {
 
     -- Optional keymap to manually switch later if auto-picked wrong one.
     vim.keymap.set('n', '<leader>rt', ':Roslyn target<CR>', { desc = 'Roslyn: choose target' })
+    -- Register which-key label for Roslyn (array-style full-key entry)
+    do
+      local ok, wk = pcall(require, 'which-key')
+      if ok and wk then
+        wk.add({
+          { 'rt', desc = 'Roslyn: choose target' },
+        })
+      end
+    end
   end,
 }

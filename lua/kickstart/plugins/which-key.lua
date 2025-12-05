@@ -14,9 +14,9 @@ return {
       },
     },
     spec = {
-      { '<leader>s', group = '[S]earch' },
-      { '<leader>t', group = '[T]oggle' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }
+      { '<leader>s', group = 'Search', icon = { icon = '🔍', color = 'green' } },
+      { '<leader>t', group = 'Toggle', icon = { icon = '', color = 'blue' } },
+      { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' }, icon = { icon = '', color = 'orange' } },
     },
   },
 }

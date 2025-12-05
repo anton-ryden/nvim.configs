@@ -28,5 +28,13 @@ return { -- For running test. Includes .NET adapter and keymaps.
     map('n', '<leader>tl', function() neotest.run.run_last() end, { desc = '[T]est run [L]ast' })
     map('n', '<leader>to', function() neotest.output.open({ enter = true }) end, { desc = '[T]est [O]utput' })
     map('n', '<leader>tt', function() neotest.summary.toggle() end, { desc = '[T]est [T]ree' })
+    do
+      local ok, wk = pcall(require, 'which-key')
+      if ok and wk then
+          wk.add({
+            { '<leader>t', group = '[T]est' },
+          })
+      end
+    end
   end,
 }

@@ -108,14 +108,24 @@ function M.register_commands()
   vim.api.nvim_create_user_command('DotnetBuildProject', function() M.run('build_project') end, { desc = 'Build nearest project only' })
 end
 
--- Keymaps for dotnet operations
 function M.register_keymaps()
   local map = vim.keymap.set
-  map('n', '<leader>tB', '<cmd>DotnetBuild<CR>', { desc = '[T] Dotnet [B]uild (nearest)' })
-  map('n', '<leader>tC', '<cmd>DotnetClean<CR>', { desc = '[T] Dotnet [C]lean (nearest)' })
-  map('n', '<leader>tR', '<cmd>DotnetRebuild<CR>', { desc = '[T] Dotnet [R]ebuild (nearest)' })
-  map('n', '<leader>tS', '<cmd>DotnetBuildSolution<CR>', { desc = '[T] Dotnet build [S]olution' })
-  map('n', '<leader>tP', '<cmd>DotnetBuildProject<CR>', { desc = '[T] Dotnet build [P]roject' })
+  -- Actual keymaps are created here using vim.keymap.set
+  -- NOTE: The descriptions are correctly set here and will be picked up by which-key.
+  map('n', '<leader>dB', '<cmd>DotnetBuild<CR>', { desc = '[D]otnet [B]uild (nearest)' })
+  map('n', '<leader>dC', '<cmd>DotnetClean<CR>', { desc = '[D]otnet [C]lean (nearest)' })
+  map('n', '<leader>dR', '<cmd>DotnetRebuild<CR>', { desc = '[D]otnet [R]ebuild (nearest)' })
+  map('n', '<leader>dS', '<cmd>DotnetBuildSolution<CR>', { desc = '[D]otnet build [S]olution' })
+  map('n', '<leader>dP', '<cmd>DotnetBuildProject<CR>', { desc = '[D]otnet build [P]roject' })
+
+  do
+    local ok, wk = pcall(require, 'which-key')
+    if ok and wk then
+      wk.add({
+        { '<leader>d', group = 'Dotnet', icon = { icon = '󰌛', color = 'azure' } },
+      })
+    end
+  end
 end
 
 -- Autocommands

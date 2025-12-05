@@ -34,4 +34,37 @@ return {
     message_template = '<author>, <date> • <summary>',
     virtual_text_column = 120,
   },
+  config = function()
+    -- Create a command to open full-file git blame so which-key can reference a string RHS
+    vim.api.nvim_create_user_command('GitBlameFull', function()
+      local path = vim.api.nvim_buf_get_name(0)
+      if path == '' then return end
+      vim.cmd('vnew')
+      local buf = vim.api.nvim_get_current_buf()
+      vim.api.nvim_buf_set_name(buf, 'Blame:' .. path)
+      vim.fn.jobstart({ 'git', 'blame', '--date=relative', path }, {
+        stdout_buffered = true,
+        on_stdout = function(_, data)
+          if data then
+            vim.api.nvim_buf_set_lines(buf, 0, -1, false, data)
+          end
+        end,
+      })
+      vim.bo[buf].buftype = 'nofile'
+      vim.bo[buf].bufhidden = 'wipe'
+      vim.bo[buf].swapfile = false
+    end, {})
+
+    -- Register which-key labels for git-blame under <leader>g
+    -- Use which-key.register to provide explicit subkey descriptions so which-key
+    -- shows the two mappings (gb, gB) instead of just "+2".
+    local ok, wk = pcall(require, 'which-key')
+    if ok and wk then
+      wk.add({
+        { '<leader>g', group = 'Git', icon = { icon = '', color = 'orange' } },
+        { '<leader>gb', desc = 'Toggle inline git blame' },
+        { '<leader>gB', desc = 'Open full-file git blame (relative dates)' },
+      })
+    end
+  end,
 }
