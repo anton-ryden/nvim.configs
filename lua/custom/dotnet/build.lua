@@ -122,7 +122,11 @@ function M.register_keymaps()
     local ok, wk = pcall(require, 'which-key')
     if ok and wk then
       wk.add({
-        { '<leader>d', group = 'Dotnet', icon = { icon = '󰌛', color = 'azure' } },
+        { '<leader>d', group = 'Dotnet', icon = { icon = '󰌛', color = 'azure' } },        { '<leader>dB', desc = '󰔧 Build (nearest)' },
+        { '<leader>dC', desc = '󰓌 Clean (nearest)' },
+        { '<leader>dR', desc = '󰑐 Rebuild (nearest)' },
+        { '<leader>dS', desc = '󰌷 Build Solution' },
+        { '<leader>dP', desc = '󰉋 Build Project' },
       })
     end
   end
